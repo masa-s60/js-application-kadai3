@@ -1,0 +1,30 @@
+li{
+  list-style: none;
+  margin-bottom: .5vw;
+}
+
+label{
+  margin-right: 2vw;
+}
+
+button{
+  margin-right: .5vw;
+}
+
+.p-status{
+  display: flex;
+}
+
+.p-status ul{
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.p-status div{
+  font-size: 16px;
+  font-weight: bold;
+}
+
+
+
