@@ -1,52 +1,87 @@
-const idList = document.getElementById('id');
-const taskList = document.getElementById('comment');
-const statusList = document.getElementById('status');
+const taskList = document.getElementById('status');
+const taskRow = document.getElementById('taskBody');
 const newTask = document.getElementById('newTask');
 const addButton = document.getElementById('addButton');
-const blank = /\s|\t|\n/;
+const blank = /^\s+$/;
 const tasks = [];
 
-setTask = (id, comment) => {
+const reset = () => {
+  taskRow.innerHTML = '';
+}
+
+const setTask = (id, comment) => {
   return {
     id,
     comment
   }
 }
 
-createID = (idNum) => {
-  const newID = document.createElement('li');
-  newID.textContent = tasks[idNum - 1].id;
-  idList.appendChild(newID);
+const displayNewTask = () => {
+  tasks.forEach((task, index) => {
+    createRow();
+    insertValue(task);
+    createStatusButton(taskRow.lastElementChild.children[2]); 
+  });
+  newTask.value = '';
 }
 
-createTask = (taskNum) => {
-  const newTask = document.createElement('li');
+const createRow = () => {
+  const newRow = document.createElement('tr');
+  taskRow.append(newRow);
+  createColumn(newRow);
+  createColumn(newRow);
+  createColumn(newRow);
+}
+
+const createColumn = (addedRow) => {
+  const newColumn = document.createElement('td');
+  addedRow.appendChild(newColumn);
+}
+
+const insertValue = (taskValue) => {
+  taskRow.lastElementChild.firstElementChild.textContent = taskValue.id;
+  taskRow.lastElementChild.children[1].textContent = taskValue.comment;
+}
+
+const createID = (addedRow, idNum) => {
+  const newID = document.createElement('td');
+  newID.textContent = tasks[idNum].id;
+  addedRow.appendChild(newID);
+}
+
+const createTask = (addedRow, taskNum) => {
+  const newTask = document.createElement('td');
   newTask.textContent = tasks[taskNum - 1].comment;
-  taskList.appendChild(newTask);
+  addedRow.appendChild(newTask);
 }
 
-createStatusButton = () => {
-  const newStatus = document.createElement('li');
-  statusList.appendChild(newStatus);
+const createStatusButton = (statusColumn) => {
+  ButtonWorking(statusColumn);
+  ButtonRemove(statusColumn);
+}
+
+const ButtonWorking = (tdArea) => {
   const createButtonWorking = document.createElement('button');
   createButtonWorking.id = 'working';
   createButtonWorking.textContent = '作業中';
-  newStatus.appendChild(createButtonWorking);
+  tdArea.appendChild(createButtonWorking);
+}
+
+const ButtonRemove = (tdArea) => {
   const createButtonRemove = document.createElement('button');
   createButtonRemove.id = 'remove';
   createButtonRemove.textContent = '削除';
-  newStatus.appendChild(createButtonRemove);
+  tdArea.appendChild(createButtonRemove);
 }
 
-addTask = (inputTask) => {
+const addTask = (inputTask) => {
   tasks.push(setTask(tasks.length, inputTask));
-  createID(tasks.length);
-  createTask(tasks.length);
-  createStatusButton();
+  displayNewTask();
 }
 
 addButton.addEventListener('click', () => {
-   if(newTask.value !== '') {
+   if((newTask.value !== '') && (blank.test(newTask.value) === false)) {
+    reset();
     addTask(newTask.value);
    }
 });

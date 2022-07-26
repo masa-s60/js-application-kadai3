@@ -24,19 +24,22 @@
       </label>
     </div>
 
-    <div class="p-status">
-      <ul id="id">ID
-      </ul>
-      <ul id="comment">コメント
-      </ul>
-      <ul id="status">状態
-      </ul>
-    </div>
+    <table id="status" class="p-status">
+      <thead>
+        <tr>
+          <td>ID</td>
+          <td>コメント</td>
+          <td>状態</td>
+        </tr>
+      </thead>
+      <tbody id="taskBody">
+      </tbody>
+    </table>
 
     <h2>新規タスクの追加</h2>
-    <input id="newTask" type="text" maxlength="30">
+    <input id="newTask" type="text" maxlength="50">
     <button id="addButton">追加</button>
 
-    <script type="text/javascript" src="./js-application-kadai3.js"></script>
+    <script type="text/javascript" src="js-application-kadai3.js"></script>
   </body>
 </html>
