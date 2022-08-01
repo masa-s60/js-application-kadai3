@@ -2,6 +2,7 @@ const taskList = document.getElementById('status');
 const taskRow = document.getElementById('taskBody');
 const newTask = document.getElementById('newTask');
 const addButton = document.getElementById('addButton');
+const removeButtons = document.getElementsByClassName('p-status__remove');
 const blank = /^\s+$/;
 const tasks = [];
 
@@ -9,17 +10,16 @@ const reset = () => {
   taskRow.innerHTML = '';
 }
 
-const setTask = (id, comment) => {
+const setTask = (comment) => {
   return {
-    id,
     comment
   }
 }
 
-const displayNewTask = () => {
+const displayNewTaskList = () => {
   tasks.forEach((task, index) => {
     createRow();
-    insertValue(task);
+    insertValue(index, task);
     createStatusButton(taskRow.lastElementChild.children[2]); 
   });
   newTask.value = '';
@@ -38,50 +38,54 @@ const createColumn = (addedRow) => {
   addedRow.appendChild(newColumn);
 }
 
-const insertValue = (taskValue) => {
-  taskRow.lastElementChild.firstElementChild.textContent = taskValue.id;
+const insertValue = (id, taskValue) => {
+  taskRow.lastElementChild.firstElementChild.textContent = id;
   taskRow.lastElementChild.children[1].textContent = taskValue.comment;
 }
 
-const createID = (addedRow, idNum) => {
-  const newID = document.createElement('td');
-  newID.textContent = tasks[idNum].id;
-  addedRow.appendChild(newID);
-}
-
-const createTask = (addedRow, taskNum) => {
-  const newTask = document.createElement('td');
-  newTask.textContent = tasks[taskNum - 1].comment;
-  addedRow.appendChild(newTask);
-}
-
 const createStatusButton = (statusColumn) => {
-  ButtonWorking(statusColumn);
-  ButtonRemove(statusColumn);
+  buttonWorking(statusColumn);
+  buttonRemove(statusColumn);
 }
 
-const ButtonWorking = (tdArea) => {
+const buttonWorking = (tdArea) => {
   const createButtonWorking = document.createElement('button');
   createButtonWorking.id = 'working';
   createButtonWorking.textContent = '作業中';
   tdArea.appendChild(createButtonWorking);
 }
 
-const ButtonRemove = (tdArea) => {
+const buttonRemove = (tdArea) => {
   const createButtonRemove = document.createElement('button');
-  createButtonRemove.id = 'remove';
+  createButtonRemove.className = 'p-status__remove';
   createButtonRemove.textContent = '削除';
   tdArea.appendChild(createButtonRemove);
 }
 
 const addTask = (inputTask) => {
-  tasks.push(setTask(tasks.length, inputTask));
-  displayNewTask();
+  tasks.push(setTask(inputTask));
+  displayNewTaskList();
+}
+
+const taskListCheck = () => {
+  for(let i = 0; i < removeButtons.length; i++) {
+    removeButtons[i].addEventListener('click', () => {
+      taskRemove(i);
+    });
+  } 
+}
+
+const taskRemove = (taskId) => {
+  tasks.splice(taskId, 1);
+  reset();
+  displayNewTaskList();
+  taskListCheck();
 }
 
 addButton.addEventListener('click', () => {
    if((newTask.value !== '') && (blank.test(newTask.value) === false)) {
     reset();
     addTask(newTask.value);
+    taskListCheck();
    }
 });
