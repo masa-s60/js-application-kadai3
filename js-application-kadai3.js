@@ -4,7 +4,6 @@ const newTask = document.getElementById('newTask');
 const addButton = document.getElementById('addButton');
 const removeButtons = document.querySelectorAll('.p-status__remove');
 const workingButtons = document.getElementsByClassName('p-status__working');
-document.querySelectorAll
 const blank = /^\s+$/;
 const tasks = [];
 
