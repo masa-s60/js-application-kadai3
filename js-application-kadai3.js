@@ -7,26 +7,6 @@ const workingButtons = document.getElementsByClassName('p-status__working');
 const blank = /^\s+$/;
 const tasks = [];
 
-const reset = () => {
-  taskRow.innerHTML = '';
-}
-
-const setTask = (comment) => {
-  return {
-    comment
-  }
-}
-
-const displayNewTaskList = () => {
-  tasks.forEach((task, index) => {
-    createRow();
-    insertIdAndTask(index, task);
-    createDeleteButton(index, taskRow.lastElementChild.children[2]); 
-    createWorkingButton(index, taskRow.lastElementChild.children[2]);
-  });
-  newTask.value = '';
-}
-
 const createRow = () => {
   const newRow = document.createElement('tr');
   taskRow.append(newRow);
@@ -42,7 +22,7 @@ const createColumn = (addedRow) => {
 
 const insertIdAndTask = (id, taskValue) => {
   taskRow.lastElementChild.firstElementChild.textContent = id;
-  taskRow.lastElementChild.children[1].textContent = taskValue.comment;
+  taskRow.lastElementChild.children[1].textContent = taskValue;
 }
 
 const createDeleteButton = (index, tdArea) => {
@@ -55,14 +35,42 @@ const createDeleteButton = (index, tdArea) => {
   });
 }
 
-const createWorkingButton = (index, tdArea) => {
+const removeTask = (taskId) => {
+  tasks.splice(taskId, 1);
+  reset();
+  displayNewTaskList();
+}
+
+const createWorkingButton = (tdArea) => {
   const workingButton = document.createElement('button');
   workingButton.className = 'p-status__working';
   workingButton.textContent = '作業中';
   tdArea.appendChild(workingButton);
   workingButton.addEventListener('click', () => {
-    workingTask(index);
+    changeTaskStatus(workingButton);
   });
+}
+
+const changeTaskStatus = (targetButton) => {
+  if(targetButton.textContent === '作業中') {
+    targetButton.textContent = '完了';
+  } else {
+    targetButton.textContent = '作業中';
+  }
+}
+
+const setTask = (comment) => {
+  return comment;
+}
+
+const displayNewTaskList = () => {
+  tasks.forEach((task, index) => {
+    createRow();
+    insertIdAndTask(index, task);
+    createWorkingButton(taskRow.lastElementChild.children[2]);
+    createDeleteButton(index, taskRow.lastElementChild.children[2]); 
+  });
+  newTask.value = '';
 }
 
 const addTask = (inputTask) => {
@@ -78,15 +86,8 @@ const checkTaskList = () => {
   } 
 }
 
-const removeTask = (taskId) => {
-  tasks.splice(taskId, 1);
-  reset();
-  displayNewTaskList();
-}
-
-const workingTask = (taskId) => {
-  // reset();
-  // displayNewTaskList();
+const reset = () => {
+  taskRow.innerHTML = '';
 }
 
 addButton.addEventListener('click', () => {
