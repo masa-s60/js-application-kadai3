@@ -37,7 +37,7 @@ const createDeleteButton = (index, tdArea) => {
 
 const removeTask = (taskId) => {
   tasks.splice(taskId, 1);
-  reset();
+  taskRow.innerHTML = '';
   displayNewTaskList();
 }
 
@@ -59,10 +59,6 @@ const changeTaskStatus = (targetButton) => {
   }
 }
 
-const setTask = (comment) => {
-  return comment;
-}
-
 const displayNewTaskList = () => {
   tasks.forEach((task, index) => {
     createRow();
@@ -74,7 +70,7 @@ const displayNewTaskList = () => {
 }
 
 const addTask = (inputTask) => {
-  tasks.push(setTask(inputTask));
+  tasks.push(inputTask);
   displayNewTaskList();
 }
 
@@ -86,14 +82,10 @@ const checkTaskList = () => {
   } 
 }
 
-const reset = () => {
-  taskRow.innerHTML = '';
-}
-
 addButton.addEventListener('click', () => {
   if((newTask.value === '') || (blank.test(newTask.value))) {
     return;
   }
-  reset();
+  taskRow.innerHTML = '';
   addTask(newTask.value);
 });
