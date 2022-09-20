@@ -2,8 +2,10 @@ const taskList = document.getElementById('status');
 const taskRow = document.getElementById('taskBody');
 const newTask = document.getElementById('newTask');
 const addButton = document.getElementById('addButton');
-const removeButtons = document.querySelectorAll('.p-status__remove');
-const workingButtons = document.getElementsByClassName('p-status__working');
+const removeButtons = document.querySelectorAll('.p-button__remove');
+const workingButtons = document.getElementsByClassName('p-button__working');
+const radioButtons = document.querySelectorAll('.p-radio-button');
+
 const blank = /^\s+$/;
 const tasks = [];
 
@@ -27,7 +29,7 @@ const insertIdAndTask = (id, taskValue) => {
 
 const createDeleteButton = (index, tdArea) => {
   const deleteButton = document.createElement('button');
-  deleteButton.className = 'p-status__remove';
+  deleteButton.className = 'p-button__remove';
   deleteButton.textContent = '削除';
   tdArea.appendChild(deleteButton);
   deleteButton.addEventListener('click', () => {
@@ -38,12 +40,12 @@ const createDeleteButton = (index, tdArea) => {
 const removeTask = (taskId) => {
   tasks.splice(taskId, 1);
   taskRow.innerHTML = '';
-  displayNewTaskList();
+  displayAllTaskList();
 }
 
 const createWorkingButton = (tdArea) => {
   const workingButton = document.createElement('button');
-  workingButton.className = 'p-status__working';
+  workingButton.className = 'p-button__working';
   workingButton.textContent = '作業中';
   tdArea.appendChild(workingButton);
   workingButton.addEventListener('click', () => {
@@ -59,7 +61,7 @@ const changeTaskStatus = (targetButton) => {
   }
 }
 
-const displayNewTaskList = () => {
+const displayAllTaskList = () => {
   tasks.forEach((task, index) => {
     createRow();
     insertIdAndTask(index, task);
@@ -71,7 +73,7 @@ const displayNewTaskList = () => {
 
 const addTask = (inputTask) => {
   tasks.push(inputTask);
-  displayNewTaskList();
+  displayAllTaskList();
 }
 
 const checkTaskList = () => {
@@ -81,6 +83,19 @@ const checkTaskList = () => {
     });
   } 
 }
+
+radioButtons.forEach( (radioButton, index) => {
+  radioButton.addEventListener('click', () => {
+    taskRow.innerHTML = '';
+    if(index === 0) {
+      displayAllTaskList();
+    } else if(index === 1) {
+      displayWorkingTask();
+    } else if(index === 2) {
+      displayCompleteTask();
+    }
+  });
+});
 
 addButton.addEventListener('click', () => {
   if((newTask.value === '') || (blank.test(newTask.value))) {
