@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="./js-application-kadai3.css">
+    <title>課題js-application3</title>
+  </head>
+
+  <body>
+    <h1>ToDoリスト</h1>
+    <div>
+      <label for="all">
+        <input id="all" class="p-radio-button" type="radio" name="status" checked>
+        全て
+      </label>
+      <label for="working">
+        <input id="working" class="p-radio-button" type="radio" name="status">
+        作業中
+      </label>
+      <label for="complete">
+        <input id="complete" class="p-radio-button" type="radio" name="status">
+        完了
+      </label>
+    </div>
+ 
+    <table id="status" class="p-status">
+      <thead>
+        <tr>
+          <td>ID</td>
+          <td>コメント</td>
+          <td>状態</td>
+        </tr>
+      </thead>
+      <tbody id="taskBody">
+      </tbody>
+    </table>
+
+    <h2>新規タスクの追加</h2>
+    <input id="newTask" type="text" maxlength="50">
+    <button id="addButton">追加</button>
+
+    <script type="text/javascript" src="js-application-kadai3.js"></script>
+  </body>
+</html>
